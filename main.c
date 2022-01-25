@@ -6,21 +6,14 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:05:27 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/01/25 16:14:48 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/01/25 16:29:56 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_free_array(void **array);
+void	*ft_thread(void *arg);
 int		ft_gettime(void);
-
-void	*ft_thread(void *arg)
-{
-	(void)arg;
-	printf("%d Thread\n", ft_gettime());
-	return (0);
-}
 
 int	main(int argc, char *argv[])
 {
@@ -44,26 +37,11 @@ int	main(int argc, char *argv[])
 	pthread_exit(0);
 }
 
-int	ft_atoi(char *str)
+void	*ft_thread(void *arg)
 {
-	int	result;
-
-	result = 0;
-	while (*str)
-		result = 10 * result + *str++ - '0';
-	return (result);
-}
-
-void	ft_free_array(void **array)
-{
-	void	**start;
-
-	if (!array)
-		return ;
-	start = array;
-	while (*array)
-		free(*array++);
-	free(start);
+	(void)arg;
+	printf("%d Thread\n", ft_gettime());
+	return (0);
 }
 
 int	ft_gettime(void)

@@ -1,6 +1,7 @@
 NAME = philo
 FLAGS = -Wall -Werror -Wextra
-SRC = main.c
+SRC = 	main.c		\
+		libft.c
 OBJ = $(SRC:.c=.o)
 
 all : $(NAME)

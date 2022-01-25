@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   libft.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/25 11:06:55 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/01/25 16:28:28 by mjoosten         ###   ########.fr       */
+/*   Created: 2022/01/25 16:27:49 by mjoosten          #+#    #+#             */
+/*   Updated: 2022/01/25 16:28:33 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#include "philo.h"
 
-# include <pthread.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/time.h>
-# include <unistd.h>
+void	ft_free_array(void **array)
+{
+	void	**start;
 
-typedef struct timeval	t_timeval;
+	if (!array)
+		return ;
+	start = array;
+	while (*array)
+		free(*array++);
+	free(start);
+}
 
-	//	Libft
-void	ft_free_array(void **array);
-int		ft_atoi(char *str);
+int	ft_atoi(char *str)
+{
+	int	result;
 
-#endif
+	result = 0;
+	while (*str)
+		result = 10 * result + *str++ - '0';
+	return (result);
+}
