@@ -1,10 +1,10 @@
 NAME = philo
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -g
 
 SRC = 	main.c		\
-		state.c		\
-		libft.c		\
-		time.c
+		philo.c		\
+		forks.c		\
+		utils.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -25,6 +25,6 @@ fclean: clean
 re: fclean all
 
 test: all
-	./$(NAME) 5 500 200 200
+	./$(NAME) 5 500 100 100
 
 .PHONY = clean fclean re

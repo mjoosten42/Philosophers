@@ -1,16 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 16:45:15 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/08 12:46:32 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/08 16:41:20 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	ft_free_array(void **array)
+{
+	void	**start;
+
+	if (!array)
+		return ;
+	start = array;
+	while (*array)
+		free(*array++);
+	free(start);
+}
+
+int	ft_atoi(char *str)
+{
+	int	result;
+
+	result = 0;
+	while (*str)
+		result = 10 * result + *str++ - '0';
+	return (result);
+}
 
 int	ft_gettime(void)
 {
