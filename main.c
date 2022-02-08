@@ -6,12 +6,13 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:05:27 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/08 12:55:30 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/08 14:50:53 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+void			ft_neighbours(t_philo **philo, pthread_mutex_t **forks, int i, int nb);
 pthread_mutex_t	**ft_forkscreate(int number);
 t_philo			**ft_philocreate(char *argv[], pthread_mutex_t **forks);
 void			*ft_thread(void *arg);
@@ -49,19 +50,9 @@ void	*ft_thread(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
-		pthread_mutex_lock(philo->left_fork);
-		printf("%d %d has taken a fork\n", ft_gettime(), philo->id);
-		pthread_mutex_lock(philo->right_fork);
-		printf("%d %d has taken a fork\n", ft_gettime(), philo->id);
-		philo->last_meal = ft_gettime();
-		printf("%d %d is eating\n", ft_gettime(), philo->id);
-		ft_msleep(philo->time_to_eat);
-		pthread_mutex_unlock(philo->left_fork);
-		pthread_mutex_unlock(philo->right_fork);
-		printf("%d %d is sleeping\n", ft_gettime(), philo->id);
-		ft_msleep(philo->time_to_sleep);
-		printf("%d %d is thinking\n", ft_gettime(), philo->id);
-		ft_msleep(1000);
+		ft_think(philo);
+		ft_eat(philo);
+		ft_sleep(philo);
 	}
 	return (0);
 }
@@ -79,11 +70,7 @@ t_philo	**ft_philocreate(char *argv[], pthread_mutex_t **forks)
 	while (i < number_of_philo)
 	{
 		philo[i] = malloc(sizeof(*philo[i]));
-		if (i)
-			philo[i]->left_fork = forks[i - 1];
-		else
-			philo[i]->left_fork = forks[number_of_philo - 1];
-		philo[i]->right_fork = forks[i];
+		ft_neighbours(philo, forks, i, number_of_philo);
 		philo[i]->id = i + 1;
 		philo[i]->time_to_die = ft_atoi(argv[2]);
 		philo[i]->time_to_eat = ft_atoi(argv[3]);
@@ -110,4 +97,23 @@ pthread_mutex_t	**ft_forkscreate(int number)
 		i++;
 	}
 	return (forks);
+}
+
+void	ft_neighbours(t_philo **philo, pthread_mutex_t **forks, int i, int nb)
+{
+	philo[i]->left_fork = forks[i];
+	if (i > 0)
+		philo[i]->left_philo = philo[i - 1];
+	else
+		philo[i]->left_philo = philo[nb - 1];
+	if (i < nb - 1)
+	{
+		philo[i]->right_philo = philo[i + 1];
+		philo[i]->right_fork = forks[i + 1];
+	}
+	else
+	{
+		philo[i]->right_philo = philo[0];
+		philo[i]->right_fork = forks[0];
+	}
 }

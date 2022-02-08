@@ -2,6 +2,7 @@ NAME = philo
 FLAGS = -Wall -Werror -Wextra
 
 SRC = 	main.c		\
+		state.c		\
 		libft.c		\
 		time.c
 
@@ -9,8 +10,8 @@ OBJ = $(SRC:.c=.o)
 
 all : $(NAME)
 
-$(NAME): $(OBJ)
-	gcc $(FLAGS) $^ -o $@
+$(NAME): philo.h $(OBJ)
+	gcc $(FLAGS) $(OBJ) -o $@
 
 %.o: %.c
 	gcc $(FLAGS) -c $^
@@ -24,6 +25,6 @@ fclean: clean
 re: fclean all
 
 test: all
-	./$(NAME) 3 400 100 200
+	./$(NAME) 5 500 200 200
 
 .PHONY = clean fclean re
