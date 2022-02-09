@@ -6,7 +6,7 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:06:55 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/08 17:08:02 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/09 12:58:55 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 typedef struct timeval	t_timeval;
 
-typedef enum e_state {thinking, hungry, eating, sleeping}	t_state;
+typedef enum e_state {thinking, hungry, eating, sleeping, died}	t_state;
 
 typedef struct s_philo
 {
@@ -38,19 +38,20 @@ typedef struct s_philo
 	int				number_of_times_each_philosopher_must_eat;
 }					t_philo;
 
+void			ft_printphilo(t_philo *philo);
+
 	//	main.c
-void			*ft_thread(void *arg);
+void			*ft_philo(void *arg);
 
 	//	philo.c
-t_philo			**ft_philocreate(char *argv[]);
-void			ft_neighbours(t_philo **philos);
+t_philo			*ft_philoscreate(char *argv[]);
+t_philo			*ft_philo_new(char *argv[]);
+pthread_mutex_t	*ft_forknew(void);
+
+	//	state.c
 void			ft_think(t_philo *philo);
 void			ft_eat(t_philo *philo);
 void			ft_sleep(t_philo *philo);
-
-	//	forks.c
-pthread_mutex_t	**ft_forkscreate(int number);
-void			ft_forks(t_philo **philos, int nb);
 
 	//	utils.c
 void			ft_free_array(void **array);

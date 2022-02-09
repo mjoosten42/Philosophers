@@ -3,7 +3,7 @@ FLAGS = -Wall -Werror -Wextra -g
 
 SRC = 	main.c		\
 		philo.c		\
-		forks.c		\
+		state.c		\
 		utils.c
 
 OBJ = $(SRC:.c=.o)
