@@ -6,7 +6,7 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:06:55 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/09 12:58:55 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/09 15:34:30 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ typedef struct s_philo
 	pthread_t		thread;
 	t_state			state;
 	int				id;
-	int				last_meal;
+	int				time_of_death;
+	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				number_of_times_each_philosopher_must_eat;
@@ -52,6 +53,7 @@ pthread_mutex_t	*ft_forknew(void);
 void			ft_think(t_philo *philo);
 void			ft_eat(t_philo *philo);
 void			ft_sleep(t_philo *philo);
+void			ft_state(t_philo *philo, t_state state);
 
 	//	utils.c
 void			ft_free_array(void **array);

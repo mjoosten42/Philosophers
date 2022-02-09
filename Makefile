@@ -25,6 +25,6 @@ fclean: clean
 re: fclean all
 
 test: all
-	./$(NAME) 5 500 100 100
+	./$(NAME) 5 500 200 200
 
 .PHONY = clean fclean re

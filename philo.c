@@ -6,7 +6,7 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 14:25:15 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/09 12:58:44 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/09 15:07:50 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,14 @@ t_philo	*ft_philo_new(char *argv[])
 	t_philo	*philo;
 
 	philo = malloc(sizeof(*philo));
+	philo->time_to_die = ft_atoi(argv[2]);
 	philo->time_to_eat = ft_atoi(argv[3]);
 	philo->time_to_sleep = ft_atoi(argv[4]);
-	philo->last_meal = 0;
+	if (argv[5])
+		philo->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
+	else
+		philo->number_of_times_each_philosopher_must_eat = 0;
+	philo->time_of_death = philo->time_to_die;
 	pthread_create(&philo->thread, 0, ft_philo, philo);
 	return (philo);
 }
@@ -64,22 +69,4 @@ pthread_mutex_t	*ft_forknew(void)
 	new = malloc(sizeof(*new));
 	pthread_mutex_init(new, 0);
 	return (new);
-}
-
-void	ft_printphilo(t_philo *philo)
-{
-	int	id;
-
-	id = philo->id;
-	do
-	{
-		printf("---Philo[%d]---\n", philo->id);
-	printf("Philo: %p\n", philo);
-	printf("Right Philo: %p\n", philo->right_philo);
-	printf("Left Philo: %p\n", philo->left_philo);
-	printf("Right Fork: %p\n", philo->right_fork);
-	printf("Left Fork: %p\n", philo->left_fork);
-	philo = philo->right_philo;
-}
-	while (id != philo->id);
 }
