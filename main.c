@@ -6,7 +6,7 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:05:27 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/09 15:30:53 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/09 17:08:20 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,6 @@ int	main(int argc, char *argv[])
 	if (argc < 5 || argc > 6)
 		return (1);
 	philos = ft_philoscreate(argv);
-	while (1)
-	{
-		if (philos->time_of_death < ft_gettime())
-		{
-			philos->state = died;
-			printf("%d %d died\n", ft_gettime(), philos->id);
-			break ;
-		}
-		philos = philos->right_philo;
-	}
 	pthread_exit(EXIT_SUCCESS);
 }
 
