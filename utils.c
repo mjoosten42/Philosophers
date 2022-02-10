@@ -6,7 +6,7 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 16:45:15 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/08 16:41:20 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/10 12:56:15 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,11 @@ int	ft_gettime(void)
 		+ (time.tv_usec - start.tv_usec) / 1000);
 }
 
-int	ft_msleep(int ms)
+void	ft_msleep(int ms)
 {
-	return (usleep(1000 * ms));
+	int	time;
+
+	time = ms + ft_gettime();
+	while (time > ft_gettime())
+		;
 }
