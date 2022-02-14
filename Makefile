@@ -1,10 +1,10 @@
 NAME = philo
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS = -Wall -Werror -Wextra -g -fsanitize=thread
 
 SRC = 	main.c		\
 		philo.c		\
 		state.c		\
-		utils.c
+		utils.c		
 
 OBJ = $(SRC:.c=.o)
 
@@ -25,6 +25,6 @@ fclean: clean
 re: fclean all
 
 test: all
-	./$(NAME) 4 410 200 200
+	./$(NAME) 40 410 200 200
 
 .PHONY = clean fclean re

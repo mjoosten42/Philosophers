@@ -6,7 +6,7 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:05:27 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/10 14:16:37 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/14 16:33:59 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,46 @@
 
 int	main(int argc, char *argv[])
 {
-	t_philo			**philos;
+	t_philo	**philos;
+	t_mutex	print;
 
 	if (argc < 5 || argc > 6)
 		return (1);
-	philos = ft_philoscreate(argv);
-	ft_death(philos);
+	print.value = 0;
+	pthread_mutex_init(&print.mutex, 0);
+	pthread_mutex_lock(&print.mutex);
+	philos = ft_philoscreate(argv, &print);
+	pthread_mutex_unlock(&print.mutex);
+	pthread_exit(EXIT_SUCCESS);
 }
 
 void	*ft_philo(void *arg)
 {
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	pthread_mutex_lock(&philo->print->mutex);
+	pthread_mutex_unlock(&philo->print->mutex);
+	ft_printf(philo, "%d %d is thinking\n");
+	if (!(philo->id % 2))
+		ft_msleep(philo, philo->time_to_eat);
 	while (1)
 	{
-		ft_think(arg);
-		ft_eat(arg);
-		ft_sleep(arg);
+		ft_think(philo);
+		ft_eat(philo);
+		ft_sleep(philo);
 	}
 	return (arg);
 }
 
-void	ft_death(t_philo **philos)
+void	ft_printf(t_philo *philo, char *str)
 {
-	int	i;
-
-	while (1)
+	pthread_mutex_lock(&philo->print->mutex);
+	if (philo->print->value)
 	{
-		i = 0;
-		while (philos[i])
-		{
-			if (philos[i]->time_of_death < ft_gettime())
-			{
-				while (*philos)
-					(*philos++)->died = 1;
-				pthread_exit(EXIT_SUCCESS);
-			}
-			i++;
-		}
+		pthread_mutex_unlock(&philo->print->mutex);
+		pthread_exit(0);
 	}
+	printf(str, ft_gettime(), philo->id);
+	pthread_mutex_unlock(&philo->print->mutex);
 }
