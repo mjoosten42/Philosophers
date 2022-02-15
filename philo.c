@@ -6,54 +6,52 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 14:25:15 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/14 16:25:21 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/15 13:22:07 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-t_philo	**ft_philoscreate(char *argv[], t_mutex *print)
+t_philo	**ft_philoscreate(int *args, t_mutex *print)
 {
 	t_philo	**philos;
 	t_mutex	*fork;
-	int		number_of_philo;
 	int		i;
 
 	fork = 0;
 	i = 0;
-	number_of_philo = ft_atoi(argv[1]);
-	philos = malloc(sizeof(*philos) * number_of_philo);
-	while (i < number_of_philo)
+	philos = malloc(sizeof(*philos) * args[1]);
+	while (i < args[1])
 	{
-		philos[i] = ft_philo_new(argv, print);
+		philos[i] = ft_philo_new(args, print);
+		if (!philos[i])
+			return (ft_free_philos(philos));
 		philos[i]->id = i + 1;
 		philos[i]->left_fork = fork;
 		fork = ft_mutex_new();
 		philos[i]->right_fork = fork;
+		if (!fork)
+			return (ft_free_philos(philos));
+		pthread_create(&philos[i]->thread, NULL, ft_philo, philos[i]);
 		i++;
 	}
 	philos[0]->left_fork = fork;
-	while (i--)
-		pthread_create(&philos[i]->thread, 0, ft_philo, philos[i]);
 	return (philos);
 }
 
-t_philo	*ft_philo_new(char *argv[], t_mutex *print)
+t_philo	*ft_philo_new(int *args, t_mutex *print)
 {
 	t_philo	*philo;
 
 	philo = malloc(sizeof(*philo));
 	if (!philo)
-		pthread_exit(0);
+		return (NULL);
 	philo->print = print;
-	philo->time_to_die = ft_atoi(argv[2]);
-	philo->time_to_eat = ft_atoi(argv[3]);
-	philo->time_to_sleep = ft_atoi(argv[4]);
-	if (argv[5])
-		philo->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
-	else
-		philo->number_of_times_each_philosopher_must_eat = 0;
+	philo->time_to_die = args[2];
+	philo->time_to_eat = args[3];
+	philo->time_to_sleep = args[4];
 	philo->time_of_death = philo->time_to_die;
+	philo->number_of_times_each_philosopher_must_eat = args[5];
 	return (philo);
 }
 
@@ -63,8 +61,24 @@ t_mutex	*ft_mutex_new(void)
 
 	new = malloc(sizeof(*new));
 	if (!new)
-		pthread_exit(0);
-	pthread_mutex_init(&new->mutex, 0);
+		return (NULL);
+	pthread_mutex_init(&new->mutex, NULL);
 	new->value = 0;
 	return (new);
+}
+
+void	*ft_free_philos(t_philo **philos)
+{
+	int	i;
+
+	i = 0;
+	while (philos[i])
+	{
+		if (philos[i]->right_fork)
+			free(philos[i]->right_fork);
+		free(philos[i]);
+		i++;
+	}
+	free(philos);
+	return (NULL);
 }

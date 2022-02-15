@@ -6,7 +6,7 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:06:55 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/14 16:34:10 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/15 13:19:01 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,26 @@ typedef struct s_philo
 }				t_philo;
 
 	//	main.c
-void			*ft_philo(void *arg);
-void			ft_printf(t_philo *philo, char *str);
-void			ft_death(t_philo *philo);
+void	*ft_philo(void *arg);
+int		ft_checkdeath(t_philo *philo);
+int		ft_printf(t_philo *philo, char *str);
 
 	//	philo.c
-t_philo			**ft_philoscreate(char *argv[], t_mutex *print);
-t_philo			*ft_philo_new(char *argv[], t_mutex *print);
-t_mutex			*ft_mutex_new(void);
-void			ft_drop(t_mutex *fork);
+t_philo	**ft_philoscreate(int *args, t_mutex *print);
+t_philo	*ft_philo_new(int *args, t_mutex *print);
+t_mutex	*ft_mutex_new(void);
+void	*ft_free_philos(t_philo **philos);
 
 	//	state.c
-void			ft_think(t_philo *philo);
-void			ft_eat(t_philo *philo);
-void			ft_sleep(t_philo *philo);
+int		ft_think(t_philo *philo);
+int		ft_eat(t_philo *philo);
+int		ft_sleep(t_philo *philo);
+int		ft_take(t_mutex *fork);
+int		ft_drop(t_mutex *fork);
 
 	//	utils.c
-void			ft_msleep(t_philo *philo, int ms);
-int				ft_gettime(void);
-int				ft_atoi(char *str);
+int		ft_msleep(t_philo *philo, int ms);
+int		ft_gettime(void);
+int		ft_atoi(char *str);
 
 #endif

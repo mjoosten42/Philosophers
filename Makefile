@@ -1,5 +1,5 @@
 NAME = philo
-FLAGS = -Wall -Werror -Wextra -g -fsanitize=thread
+FLAGS = -Wall -Werror -Wextra -g
 
 SRC = 	main.c		\
 		philo.c		\
@@ -25,6 +25,6 @@ fclean: clean
 re: fclean all
 
 test: all
-	./$(NAME) 40 410 200 200
+	./$(NAME) 3 410 200 200
 
 .PHONY = clean fclean re

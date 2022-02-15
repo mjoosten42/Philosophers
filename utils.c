@@ -6,35 +6,21 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 16:45:15 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/14 16:47:39 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/15 13:29:33 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_msleep(t_philo *philo, int ms)
+int	ft_msleep(t_philo *philo, int ms)
 {
 	int	target;
 
 	target = ft_gettime() + ms;
 	while (target > ft_gettime())
-	{
-		pthread_mutex_lock(&philo->print->mutex);
-		if (philo->print->value)
-		{
-			pthread_mutex_unlock(&philo->print->mutex);
-			pthread_exit(0);
-		}
-		pthread_mutex_unlock(&philo->print->mutex);
-		if (philo->time_of_death < ft_gettime())
-		{
-			pthread_mutex_lock(&philo->print->mutex);
-			printf("%d %d died\n", ft_gettime(), philo->id);
-			philo->print->value = 1;
-			pthread_mutex_unlock(&philo->print->mutex);
-			pthread_exit(0);
-		}
-	}
+		if (ft_checkdeath(philo))
+			return (1);
+	return (0);
 }
 
 int	ft_gettime(void)
@@ -54,7 +40,9 @@ int	ft_atoi(char *str)
 	int	result;
 
 	result = 0;
-	while (*str)
+	while (*str == ' ')
+		str++;
+	while (*str >= '0' && *str <= '9')
 		result = 10 * result + *str++ - '0';
 	return (result);
 }
