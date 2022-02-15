@@ -6,7 +6,7 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 11:45:02 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/15 13:13:07 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/15 15:41:02 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_think(t_philo *philo)
 	if (ft_printf(philo, "%d %d is thinking\n"))
 		return (1);
 	if (philo->time_of_death == philo->time_to_die && philo->id % 2)
-		if (ft_msleep(philo, philo->time_to_eat))
+		if (ft_msleep(philo, philo->time_to_eat / 2))
 			return (1);
 	while (1)
 	{
@@ -40,7 +40,7 @@ int	ft_think(t_philo *philo)
 int	ft_eat(t_philo *philo)
 {
 	philo->time_of_death = philo->time_to_die + ft_gettime();
-	philo->number_of_times_each_philosopher_must_eat--;
+	philo->meals_left--;
 	if (ft_printf(philo, "%d %d is eating\n"))
 		return (1);
 	if (ft_msleep(philo, philo->time_to_eat))

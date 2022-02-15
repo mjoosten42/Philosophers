@@ -6,7 +6,7 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:05:27 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/15 13:29:56 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/15 16:17:07 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,34 +21,22 @@ int	main(int argc, char *argv[])
 	if (argc < 5 || argc > 6)
 		return (1);
 	args[5] = 0;
-	while (argc--)
+	while (argc-- > 1)
+	{
 		args[argc] = ft_atoi(argv[argc]);
+		if (args[argc] == -1)
+			return (1);
+	}
 	print.value = 0;
 	pthread_mutex_init(&print.mutex, 0);
 	pthread_mutex_lock(&print.mutex);
 	philos = ft_philoscreate(args, &print);
+	if (!philos)
+		return (1);
 	pthread_mutex_unlock(&print.mutex);
 	while (args[1]--)
 		pthread_join(philos[args[1]]->thread, NULL);
-	system("leaks philo");
-}
-
-void	*ft_philo(void *arg)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)arg;
-	pthread_mutex_lock(&philo->print->mutex);
-	pthread_mutex_unlock(&philo->print->mutex);
-	while (1)
-	{
-		if (ft_think(philo))
-			return (NULL);
-		if (ft_eat(philo))
-			return (NULL);
-		if (ft_sleep(philo))
-			return (NULL);
-	}
+	ft_free_philos(philos);
 }
 
 int	ft_checkdeath(t_philo *philo)
