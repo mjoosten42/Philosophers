@@ -6,7 +6,7 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:06:55 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/15 16:17:22 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/21 10:10:29 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_philo
 	//	main.c
 int		ft_checkdeath(t_philo *philo);
 int		ft_printf(t_philo *philo, char *str);
+int		ft_monitor(t_philo **philos, t_mutex *print);
 
 	//	philo.c
 void	*ft_philo(void *arg);

@@ -6,7 +6,7 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 14:25:15 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/15 16:17:34 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/21 09:54:38 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ t_philo	*ft_philo_new(int *args, t_mutex *print)
 	philo->time_to_die = args[2];
 	philo->time_to_eat = args[3];
 	philo->time_to_sleep = args[4];
-	philo->time_of_death = philo->time_to_die;
 	philo->meals_left = args[5];
+	philo->time_of_death = philo->time_to_die;
 	return (philo);
 }
 

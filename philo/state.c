@@ -6,7 +6,7 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 11:45:02 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/15 15:41:02 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/21 10:27:51 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,14 @@ int	ft_think(t_philo *philo)
 int	ft_eat(t_philo *philo)
 {
 	philo->time_of_death = philo->time_to_die + ft_gettime();
-	philo->meals_left--;
 	if (ft_printf(philo, "%d %d is eating\n"))
 		return (1);
 	if (ft_msleep(philo, philo->time_to_eat))
 		return (1);
+	pthread_mutex_lock(&philo->print->mutex);
+	if (philo->meals_left > 0)
+		philo->meals_left--;
+	pthread_mutex_unlock(&philo->print->mutex);
 	ft_drop(philo->right_fork);
 	ft_drop(philo->left_fork);
 	return (0);
