@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:06:55 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/21 15:51:22 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/21 16:12:46 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
+# include <semaphore.h>
 # include <sys/time.h>
-# include <pthread.h>
-# include <stdlib.h>
+# include <sys/wait.h>
+# include <signal.h>
 # include <unistd.h>
 # include <stdio.h>
 
 typedef struct timeval	t_timeval;
 
-typedef struct s_mutex
-{
-	pthread_mutex_t	mutex;
-	int				value;
-}					t_mutex;
-
 typedef struct s_philo
 {
-	pthread_t	thread;
-	t_mutex		*print;
-	t_mutex		*left_fork;
-	t_mutex		*right_fork;
+	sem_t		*forks;
 	int			id;
 	int			time_to_die;
 	int			time_to_eat;
@@ -42,29 +34,17 @@ typedef struct s_philo
 }				t_philo;
 
 	//	main.c
-int		ft_checkdeath(t_philo *philo);
-int		ft_printf(t_philo *philo, char *str);
-int		ft_monitor(t_philo **philos, t_mutex *print);
+void	ft_fork(t_philo *philo, int i);
+void	ft_philo(t_philo *philo);
 
 	//	philo.c
-void	*ft_philo(void *arg);
-void	*ft_free_philos(t_philo **philos);
-t_philo	**ft_philoscreate(int *args, t_mutex *print);
-t_philo	*ft_philo_new(int *args, t_mutex *print);
-t_mutex	*ft_mutex_new(void);
-
-	//	state.c
-int		ft_think(t_philo *philo);
-int		ft_eat(t_philo *philo);
-int		ft_sleep(t_philo *philo);
-int		ft_take(t_mutex *fork);
-int		ft_drop(t_mutex *fork);
+void	ft_think(t_philo *philo);
+void	ft_eat(t_philo *philo);
+void	ft_sleep(t_philo *philo);
 
 	//	utils.c
-char	*ft_itoa(int nb);
 int		ft_atoi(char *str);
-int		ft_strcmp(char *s1, char *s2);
-int		ft_msleep(t_philo *philo, int ms);
 int		ft_gettime(void);
+void	ft_msleep(t_philo *philo, int ms);
 
 #endif
