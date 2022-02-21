@@ -6,7 +6,7 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:05:27 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/21 10:44:43 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/21 11:20:23 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,20 +83,21 @@ int	ft_monitor(t_philo **philos, t_mutex *print)
 	{
 		meals = 0;
 		i = 0;
-		while (philos[i])
+		pthread_mutex_lock(&print->mutex);
+		if (print->value)
 		{
-			pthread_mutex_lock(&print->mutex);
-			meals += philos[i]->meals_left;
 			pthread_mutex_unlock(&print->mutex);
-			i++;
+			return (1);
 		}
+		while (philos[i])
+			meals += philos[i++]->meals_left;
 		if (!meals)
 		{
-			pthread_mutex_lock(&print->mutex);
 			print->value = 1;
 			pthread_mutex_unlock(&print->mutex);
 			return (1);
 		}
+		pthread_mutex_unlock(&print->mutex);
 		usleep(1000);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 14:25:15 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/21 09:54:38 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/02/21 11:12:57 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ void	*ft_free_philos(t_philo **philos)
 	while (philos[i])
 	{
 		if (philos[i]->right_fork)
+		{
+			pthread_mutex_destroy(&philos[i]->right_fork->mutex);
 			free(philos[i]->right_fork);
+		}
 		free(philos[i]);
 		i++;
 	}
