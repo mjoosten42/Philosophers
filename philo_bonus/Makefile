@@ -2,7 +2,6 @@ NAME = philo_bonus
 FLAGS = -Wall -Werror -Wextra
 
 SRC = 	main.c	\
-		philo.c	\
 		utils.c
 
 OBJ = $(SRC:.c=.o)
@@ -24,6 +23,6 @@ fclean: clean
 re: fclean all
 
 test: all
-	./$(NAME) 3 180 600 600
+	./$(NAME) 3 800 200 200
 
-.PHONY = clean fclean re
+.PHONY = clean fclean re test

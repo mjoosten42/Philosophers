@@ -5,12 +5,30 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/07 16:45:15 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/21 16:33:01 by mjoosten         ###   ########.fr       */
+/*   Created: 2022/02/22 13:54:15 by mjoosten          #+#    #+#             */
+/*   Updated: 2022/02/22 13:59:36 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+void	ft_msleep(t_philo *philo, int ms)
+{
+	int	target;
+
+	target = ft_gettime() + ms;
+	while (target > ft_gettime())
+	{
+		if (philo->time_of_death < ft_gettime())
+		{
+			printf("%d %d died\n", ft_gettime(), philo->id);
+			sem_unlink(FORKS);
+			sem_unlink(MEALS);
+			kill(0, SIGKILL);
+		}
+		usleep(1000);
+	}
+}
 
 int	ft_atoi(char *str)
 {
@@ -32,20 +50,4 @@ int	ft_gettime(void)
 	gettimeofday(&time, 0);
 	return ((time.tv_sec - start.tv_sec) * 1000
 		+ (time.tv_usec - start.tv_usec) / 1000);
-}
-
-void	ft_msleep(t_philo *philo, int ms)
-{
-	int	target;
-
-	target = ft_gettime() + ms;
-	while (target > ft_gettime())
-	{
-		if (philo->time_of_death < ft_gettime())
-		{
-			printf("%d %d has died\n", ft_gettime(), philo->id);
-			kill(0, SIGKILL);
-		}
-		usleep(1000);
-	}
 }
