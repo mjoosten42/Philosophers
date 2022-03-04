@@ -6,7 +6,7 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 11:05:27 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/21 11:20:23 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/03/04 09:58:48 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	ft_checkdeath(t_philo *philo)
 		return (1);
 	}
 	pthread_mutex_unlock(&philo->print->mutex);
-	usleep(1000);
 	return (0);
 }
 

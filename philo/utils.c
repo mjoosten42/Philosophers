@@ -6,7 +6,7 @@
 /*   By: mjoosten <mjoosten@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 16:45:15 by mjoosten          #+#    #+#             */
-/*   Updated: 2022/02/15 16:23:49 by mjoosten         ###   ########.fr       */
+/*   Updated: 2022/03/04 09:58:43 by mjoosten         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,11 @@ int	ft_msleep(t_philo *philo, int ms)
 
 	target = ft_gettime() + ms;
 	while (target > ft_gettime())
+	{
 		if (ft_checkdeath(philo))
 			return (1);
+		usleep(1000);
+	}
 	return (0);
 }
 
